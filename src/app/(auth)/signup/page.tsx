@@ -1,7 +1,11 @@
 import RegisterForm from '@/features/auth/components/SignupForm'
+import { requireUnAuth } from '@/lib/auth-utils'
 
 
-function page() {
+async function page() {
+
+  await requireUnAuth()
+
   return (
     <div className="w-screen h-screen">
       <RegisterForm/>

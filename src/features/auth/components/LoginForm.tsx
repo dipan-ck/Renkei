@@ -20,6 +20,8 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useState } from "react";
 import { cn } from "@/lib/utils";
+import { authClient } from "@/lib/auth-client";
+import { toast } from "sonner";
 
 const loginSchema = z.object({
   email: z.string().min(1, "Email is required").email("Invalid email address"),
@@ -39,8 +41,34 @@ export default function LoginForm() {
   });
 
   async function onSubmit(values: LoginForrmValues) {
-    console.log(values);
+   
+    await authClient.signIn.email({
+      email: values.email,
+      password: values.password,
+    },
+    {
+      onSuccess: () => {
+        toast.success("Logged in successfully");
+        router.push("/");
+      },
+      onError: (error) => {
+        toast.error(error.error.message || "Something went wrong");
+      }
+    }
+  )
   }
+
+
+
+  async function GitHubLogin(){
+    await authClient.signIn.social({
+      provider: "github"
+    })
+  }
+
+
+
+  
 
   const isPending = form.formState.isSubmitting;
   const [showPassword, setShowPassword] = useState(false);
@@ -65,6 +93,7 @@ export default function LoginForm() {
                   disabled={isPending}
                   type="button"
                   className="w-full flex items-center gap-2 justify-center"
+                  onClick={GitHubLogin}
                 >
                   <Github className="h-4 w-4" />
                   Continue with GitHub
