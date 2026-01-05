@@ -72,6 +72,16 @@ export default function SignupForm() {
 
   }
 
+
+    async function GitHubSignup(){
+      await authClient.signIn.social({
+        provider: "github"
+      })
+    }
+  
+
+
+
   const isPending = form.formState.isSubmitting;
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
@@ -95,6 +105,7 @@ export default function SignupForm() {
                   variant="outline"
                   disabled={isPending}
                   type="button"
+                  onClick={GitHubSignup}
                   className="w-full flex items-center gap-2 justify-center"
                 >
                   <Github className="h-4 w-4" />
@@ -241,7 +252,7 @@ export default function SignupForm() {
 
               {/* Submit */}
               <Button disabled={isPending} type="submit" className="w-full">
-                Login
+                Create Account
               </Button>
             </form>
           </Form>

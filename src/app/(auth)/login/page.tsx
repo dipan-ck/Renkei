@@ -1,7 +1,10 @@
 import LoginForm from "@/features/auth/components/LoginForm"
+import { requireUnAuth } from "@/lib/auth-utils"
 
 
-function page() {
+export default async function page() {
+
+  await requireUnAuth()
   return (
     <div className="w-screen h-screen">
         <LoginForm/>
@@ -9,4 +12,3 @@ function page() {
   )
 }
 
-export default page
