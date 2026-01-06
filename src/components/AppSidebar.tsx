@@ -30,10 +30,12 @@ import Logo from "./Logo";
 import { usePathname, useRouter } from "next/navigation";
 import { authClient } from "@/lib/auth-client";
 import { toast } from "sonner";
+import { useCheckActiveSubscription } from "@/features/subscription/hooks/useSubscription";
 
 function AppSidebar() {
   const router = useRouter();
   const pathName = usePathname();
+  const {isHavingSubscription, isLoading} = useCheckActiveSubscription()
 
   const sidebarItems = [
     {
@@ -94,19 +96,24 @@ function AppSidebar() {
       </SidebarContent>
       <SidebarFooter>
         <SidebarMenu>
-          <SidebarMenuItem>
-            <SidebarMenuButton className="py-5" tooltip={"Billing Portal"}>
+           {
+            (!isHavingSubscription && !isLoading) && (
+                       <SidebarMenuItem>
+            <SidebarMenuButton onClick={() => authClient.checkout({slug:"Renkei-Pro"})} className="py-5" tooltip={"Billing Portal"}>
               <Star className="h-4 w-4" />
               <span>Upgrade to Pro</span>
             </SidebarMenuButton>           
-            <SidebarMenuButton className="py-5" tooltip={"Billing Portal"}>
-              <CardSim className="h-4 w-4" />
-              <span>Billing Portal</span>
-            </SidebarMenuButton>
+           
           </SidebarMenuItem>
+            )
+           }
         </SidebarMenu>{" "}
         <SidebarMenu>
           <SidebarMenuItem>
+             <SidebarMenuButton onClick={() => authClient.customer.portal()} className="py-5" tooltip={"Billing Portal"}>
+              <CardSim className="h-4 w-4" />
+              <span>Billing Portal</span>
+            </SidebarMenuButton>
             <SidebarMenuButton className="py-5">
               <Settings className="h-4 w-4" />
               <span>Account Settings</span>
