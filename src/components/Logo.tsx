@@ -6,8 +6,8 @@ function Logo() {
       <Image
         src="/logo.svg"
         alt="Renkei logo"
-        width={26}
-        height={26}
+        width={20}
+        height={20}
         priority
       />
       <span className="text-xl font-semibold tracking-tighter">
