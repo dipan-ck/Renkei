@@ -35,7 +35,7 @@ import { useCheckActiveSubscription } from "@/features/subscription/hooks/useSub
 function AppSidebar() {
   const router = useRouter();
   const pathName = usePathname();
-  const {isHavingSubscription, isLoading} = useCheckActiveSubscription()
+  const { isHavingSubscription, isLoading } = useCheckActiveSubscription();
 
   const sidebarItems = [
     {
@@ -48,21 +48,20 @@ function AppSidebar() {
     },
   ];
 
-
-
-  async function logout(){
-    await authClient.signOut({}, {
-        onSuccess(){
-            router.push("/login")
-            toast.success("Logged out")
+  async function logout() {
+    await authClient.signOut(
+      {},
+      {
+        onSuccess() {
+          router.push("/login");
+          toast.success("Logged out");
         },
-        onError(err){
-            toast.error(err.error.message || "Somethibng went wrong")
-        }
-    })
+        onError(err) {
+          toast.error(err.error.message || "Somethibng went wrong");
+        },
+      }
+    );
   }
-
-
 
   return (
     <Sidebar>
@@ -96,21 +95,26 @@ function AppSidebar() {
       </SidebarContent>
       <SidebarFooter>
         <SidebarMenu>
-           {
-            (!isHavingSubscription && !isLoading) && (
-                       <SidebarMenuItem>
-            <SidebarMenuButton onClick={() => authClient.checkout({slug:"Renkei-Pro"})} className="py-5" tooltip={"Billing Portal"}>
-              <Star className="h-4 w-4" />
-              <span>Upgrade to Pro</span>
-            </SidebarMenuButton>           
-           
-          </SidebarMenuItem>
-            )
-           }
+          {!isHavingSubscription && !isLoading && (
+            <SidebarMenuItem>
+              <SidebarMenuButton
+                onClick={() => authClient.checkout({ slug: "Renkei-Pro" })}
+                className="py-5"
+                tooltip={"Billing Portal"}
+              >
+                <Star className="h-4 w-4" />
+                <span>Upgrade to Pro</span>
+              </SidebarMenuButton>
+            </SidebarMenuItem>
+          )}
         </SidebarMenu>{" "}
         <SidebarMenu>
           <SidebarMenuItem>
-             <SidebarMenuButton onClick={() => authClient.customer.portal()} className="py-5" tooltip={"Billing Portal"}>
+            <SidebarMenuButton
+              onClick={() => authClient.customer.portal()}
+              className="py-5"
+              tooltip={"Billing Portal"}
+            >
               <CardSim className="h-4 w-4" />
               <span>Billing Portal</span>
             </SidebarMenuButton>
@@ -118,12 +122,15 @@ function AppSidebar() {
               <Settings className="h-4 w-4" />
               <span>Account Settings</span>
             </SidebarMenuButton>
-            <SidebarMenuButton onClick={logout} className="py-5" tooltip={"Billing Portal"}>
+            <SidebarMenuButton
+              onClick={logout}
+              className="py-5"
+              tooltip={"Billing Portal"}
+            >
               <LogOut className="h-4 w-4" />
               <span>Logout</span>
             </SidebarMenuButton>
           </SidebarMenuItem>
-          
         </SidebarMenu>
       </SidebarFooter>
     </Sidebar>

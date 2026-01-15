@@ -5,7 +5,7 @@ async function page() {
 
   await requireAuth()
   return (
-    <div>worlflows page</div>
+    <div>worlflowss page</div>
   )
 }
 
