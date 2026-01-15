@@ -5,7 +5,7 @@ async function page() {
 
   await requireAuth()
   return (
-    <div>credentials page</div>
+    <div>credential id page</div>
   )
 }
 
